@@ -1,0 +1,15 @@
+2026-10-03 08:00:01 INFO Servidor iniciado en puerto 3000
+2026-10-03 08:00:05 INFO Conexion a base de datos exitosa
+2026-10-03 08:15:22 INFO Usuario sebs inicio sesion
+2026-10-03 08:16:40 WARN Consulta lenta: 2300ms en /api/gastos
+2026-10-03 08:20:11 INFO Gasto registrado por usuario sebs
+2026-10-03 09:02:33 ERROR No se pudo conectar a la base de datos
+2026-10-03 09:02:34 ERROR Reintento 1 fallido
+2026-10-03 09:02:39 ERROR Reintento 2 fallido
+2026-10-03 09:02:45 INFO Conexion a base de datos restablecida
+2026-10-03 09:30:12 INFO Usuario ana inicio sesion
+2026-10-03 09:31:50 WARN Token expirado para usuario ana
+2026-10-03 10:05:18 ERROR Error 500 en /api/reportes
+2026-10-03 10:05:19 INFO Usuario ana cerro sesion
+2026-10-03 11:45:00 WARN Uso de memoria al 85%
+2026-10-03 12:00:00 INFO Backup diario completado
