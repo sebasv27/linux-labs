@@ -5,8 +5,19 @@ on:
     branches: [main]
 
 jobs:
-  probar:
+  lint:
     runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Revisar scripts con ShellCheck
+        run: shellcheck lab6/backup.sh lab3/saludo.sh
+
+  probar:
+    needs: lint
+    runs-on: ubuntu-latest
+      # ... los mismos pasos que ya tienes
     steps:
       - name: Descargar el codigo
         uses: actions/checkout@v4
