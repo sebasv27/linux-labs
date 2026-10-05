@@ -26,8 +26,22 @@ chmod +x lab6/backup.sh
 ./lab6/backup.sh
 ```
 
+# Docker labs
+
+- Docker Lab 1: Running an Nginx container, using volumes, and building my first custom image with a Dockerfile
+- Docker Lab 2: Building a Node.js API image, configuring it with environment variables, and protecting secrets with .dockerignore
+- Docker Lab 3: Connecting the API to PostgreSQL with Docker Compose and storing data in a volume
+
+## CI/CD
+
+On every push, GitHub Actions:
+
+- Checks the Bash scripts with ShellCheck
+- Runs the backup script and verifies the result
+- Builds the Docker image of the API and tests that it responds
+
 ## Next steps
 
-Docker and CI/CD with GitHub Actions.
+Dockerizing my personal finance app, Control de Gastos.
 
 ![CI](https://github.com/sebasv27/linux-labs/actions/workflows/ci.yml/badge.svg)
