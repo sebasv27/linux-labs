@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Descargar el codigo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Revisar scripts con ShellCheck
         run: shellcheck lab6/backup.sh lab3/saludo.sh
@@ -20,7 +20,7 @@ jobs:
       # ... los mismos pasos que ya tienes
     steps:
       - name: Descargar el codigo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Conocer el runner
         run: |
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Descargar el codigo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Construir la imagen de la API
         run: docker build -t api-docker:ci docker-lab2
