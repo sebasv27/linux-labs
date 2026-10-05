@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-ORIGEN="$HOME/Aprendizaje-linux/lab6/datos"
-DESTINO="$HOME/Aprendizaje-linux/lab6/backups"
+ORIGEN="${ORIGEN:-$HOME/Aprendizaje-linux/lab6/datos}"
+DESTINO="${DESTINO:-$HOME/Aprendizaje-linux/lab6/backups}"
 DIAS_A_GUARDAR=7
 FECHA=$(date +%Y-%m-%d_%H-%M-%S)
 ARCHIVO="$DESTINO/backup-$FECHA.tar.gz"

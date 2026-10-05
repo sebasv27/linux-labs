@@ -19,6 +19,11 @@ jobs:
           ls -la
 
       - name: Probar el script de backup
+        env:
+          ORIGEN: ${{ github.workspace }}/lab6/datos
+          DESTINO: ${{ runner.temp }}/backups
         run: |
           chmod +x lab6/backup.sh
           ./lab6/backup.sh
+          ls -l "$DESTINO"
+          tar -tzf "$DESTINO"/backup-*.tar.gz
