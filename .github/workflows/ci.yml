@@ -1,0 +1,27 @@
+name: CI
+
+on: 
+  push:
+    branches: [main]
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+
+      - name: Conocer el runner
+        run: |
+            whoami
+            pwd
+            uname -a
+            ls -la
+
+      - name: Probar el script de backup
+        run: |
+            chmod +x lab/backup.sh
+            ./lab6/backup.sh
+
+
