@@ -80,3 +80,69 @@
 - "Permission denied" no siempre significa "dame más permisos": primero entender por qué
 - No usar `sudo` por reflejo cuando algo falla
 - Un solo `>` sobre un archivo de configuración lo borra todo
+
+# Cheat sheet Docker
+
+## Conceptos clave
+- Imagen = receta congelada (solo lectura) | Contenedor = imagen corriendo
+- Cliente (`docker`) le habla al daemon (`dockerd`) por HTTP a través de `/var/run/docker.sock`
+- Un contenedor vive mientras vive su proceso principal (PID 1)
+- Los contenedores comparten el kernel de la máquina (no son máquinas virtuales)
+- Los contenedores son DESECHABLES: lo que cambias adentro se pierde al borrarlos
+- Los datos que deben sobrevivir van en VOLÚMENES
+
+## Setup en WSL
+- `sudo service docker start` → encender el daemon (no arranca solo en WSL)
+- `sudo usermod -aG docker master` → poder usar docker sin sudo (luego reabrir terminal o `wsl --shutdown`)
+- Estar en el grupo docker = casi lo mismo que ser root
+
+## Comandos básicos
+- `docker run -d -p 8080:80 --name web nginx` → correr en el fondo, puerto tu_máquina:contenedor
+- `docker run -e VAR=valor` / `--env-file .env` → pasar variables de entorno
+- `docker run -v "$PWD/web":/ruta/en/contenedor:ro` → conectar una carpeta (ro = solo lectura)
+- `docker run --rm imagen comando` → ejecutar un comando y borrar el contenedor al terminar
+- `docker ps` corriendo | `docker ps -a` todos | STATUS Exited (0) bien, Exited (1) error
+- `docker logs nombre` → ver la salida del contenedor
+- `docker exec -it nombre sh` → entrar a un contenedor (bash si la imagen lo trae)
+- `docker rm -f nombre` → detener y borrar contenedor
+- `docker images` → listar imágenes | `docker rmi imagen:tag` → borrar imagen
+- Nombre de CONTENEDOR (--name) ≠ nombre de IMAGEN (repo:tag)
+
+## Dockerfile
+- `FROM node:20-alpine` → imagen base (alpine = liviana)
+- `WORKDIR /app` → carpeta de trabajo dentro de la imagen
+- `COPY package*.json ./` → primero las dependencias...
+- `RUN npm install` → RUN se ejecuta al CONSTRUIR
+- `COPY . .` → ...y el código al final (lo que cambia mucho, al final = aprovecha el caché)
+- `EXPOSE 3000` → solo documentación
+- `CMD ["npm", "start"]` → CMD se ejecuta al ARRANCAR el contenedor
+- `docker build -t nombre:1.0 .` → construir (no olvidar el punto)
+- Tags = versiones. Permiten volver a una versión anterior (rollback)
+- Cambiar el código NO cambia la imagen: hay que reconstruir
+
+## .dockerignore
+- Excluye archivos de la imagen: `node_modules`, `.env`, `.git`, `Dockerfile`
+- Los secretos NUNCA dentro de la imagen: se pasan al arrancar con --env-file
+
+## Docker Compose
+- `compose.yaml` describe varios servicios, redes y volúmenes
+- `docker compose up -d --build` → levantar todo reconstruyendo
+- `docker compose ps -a` / `logs servicio` / `exec servicio comando`
+- `docker compose down` → borra contenedores y red, NO los volúmenes
+- `docker compose down -v` → borra TAMBIÉN los volúmenes (¡se pierden los datos!)
+- Compose lee el `.env` de la carpeta y reemplaza `${VARIABLE}`
+- Entre servicios se usa el NOMBRE DEL SERVICIO (`@db:5432`), no localhost
+- `healthcheck` + `depends_on: condition: service_healthy` → esperar a que la base esté lista
+
+## PostgreSQL
+- `docker compose exec db psql -U usuario -d base` → entrar a psql
+- Nada se ejecuta hasta el `;` | `\dt` tablas | `\q` salir | `\r` cancelar
+- `ALTER TABLE ... RENAME COLUMN` → cambiar estructura sin perder datos (migraciones)
+- `pg` devuelve NUMERIC como texto (precisión del dinero) y las fechas en UTC
+
+## Lecciones Docker
+- Si algo no responde, revisar `docker compose ps -a` y `logs` antes de suponer
+- `curl -s` oculta errores: usar `curl -sS` para diagnosticar
+- Un puerto ocupado por un contenedor viejo impide arrancar el nuevo
+- Revisar nombres de imágenes: un typo va a Docker Hub (riesgo de imágenes falsas)
+- Preferir imágenes oficiales
