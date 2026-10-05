@@ -13,7 +13,7 @@ if [ ! -d "$ORIGEN" ]; then
 fi
 
 mkdir -p "$DESTINO"
-tar -czf "$ARCHIVO" -C $ORIGEN .
+tar -czf "$ARCHIVO" -C "$ORIGEN" .
 echo "Backup creado: $ARCHIVO"
 
 find "$DESTINO" -name "backup-*.tar.gz" -mtime +"$DIAS_A_GUARDAR" -print -delete
