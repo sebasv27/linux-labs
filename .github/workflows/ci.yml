@@ -1,6 +1,6 @@
 name: CI
 
-on: 
+on:
   push:
     branches: [main]
 
@@ -11,17 +11,14 @@ jobs:
       - name: Descargar el codigo
         uses: actions/checkout@v4
 
-
       - name: Conocer el runner
         run: |
-            whoami
-            pwd
-            uname -a
-            ls -la
+          whoami
+          pwd
+          uname -a
+          ls -la
 
       - name: Probar el script de backup
         run: |
-            chmod +x lab/backup.sh
-            ./lab6/backup.sh
-
-
+          chmod +x lab6/backup.sh
+          ./lab6/backup.sh
