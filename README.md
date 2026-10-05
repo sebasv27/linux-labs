@@ -29,3 +29,5 @@ chmod +x lab6/backup.sh
 ## Next steps
 
 Docker and CI/CD with GitHub Actions.
+
+![CI](https://github.com/sebasv27/linux-labs/actions/workflows/ci.yml/badge.svg)

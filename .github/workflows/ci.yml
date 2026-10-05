@@ -38,3 +38,20 @@ jobs:
           ./lab6/backup.sh
           ls -l "$DESTINO"
           tar -tzf "$DESTINO"/backup-*.tar.gz
+
+  docker:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Construir la imagen de la API
+        run: docker build -t api-docker:ci docker-lab2
+
+      - name: Probar que la API responde
+        run: |
+          docker run -d -p 3000:3000 --name api api-docker:ci
+          sleep 3
+          curl -sS --fail localhost:3000/salud
+          docker logs api
